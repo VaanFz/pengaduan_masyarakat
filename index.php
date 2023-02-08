@@ -1,9 +1,25 @@
 <!-- LOGIN MASYARAKAT -->
 
 <?php
+
+//deklarasikan session start
+SESSION_START();
+
+if (isset($_SESSION['id'])) {
+    if($_SESSION['level'] == 'masyarakat') {
+        header ('Locatoin:./masyarakat/menulis_pengaduan.php');
+    } elseif (($_SESSION['level'] == 'admin') OR ($_SESSION['level'] == 'petugas')) {
+        header('Locatoin:./administrator/verifikasi/nonvalid.php');
+    } else {
+        header('Locatoin:./logout.php');
+    }
+}
+
+
+
 // melakukan Query dari username dan password yang didapatkan di form (html) ke mysql
 if(isset($_POST['login'])) {
-    SESSION_START();
+
 /*melakukan konseksi ke database*/
 include './lib/database.php';
 
