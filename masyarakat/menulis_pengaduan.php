@@ -4,7 +4,7 @@ include '../lib/database.php';
 SESSION_START();
 
 if ($_SESSION['level'] != 'masyarakat') {
-    header('Location:./logout.php');
+    header('Location:../logout.php');
 }
 
 $id_user = $_SESSION['id'];

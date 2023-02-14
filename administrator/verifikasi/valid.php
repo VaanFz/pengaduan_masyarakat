@@ -6,16 +6,16 @@ if (($_SESSION['level'] != 'admin') AND ($_SESSION['level'] != 'petugas')) {
 }
 
 $query = "SELECT p.id_pengaduan as id_pengaduan, m.nama as nama, p.tgl_pengaduan as tgl_pengaduan, p.foto as foto, p.isi_laporan as isi_laporan, p.status as status
-         FROM pengaduan p JOIN masyarakat m WHERE p.nik = m.nik AND p.status is NULL;";
+         FROM pengaduan p JOIN masyarakat m WHERE p.nik = m.nik AND p.status = '0';";
 $execQuery = mysqli_query($koneksi, $query);
 $getData = mysqli_fetch_all($execQuery, MYSQLI_ASSOC);
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
-    $queryValid = "UPDATE pengaduan SET status = '0' WHERE id_pengaduan = $id";
+    $queryValid = "UPDATE pengaduan SET status = 'proses' WHERE id_pengaduan = $id";
     $execQueryValid = mysqli_query($koneksi, $queryValid);
     if ($execQueryValid) {
-        header('Location:./nonvalid.php');
+        header('Location:./valid.php');
     }else {
         echo '<script>alert("ada proses yang salah</script>")'; 
     }
@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengaduan Non Valid</title>
+    <title>Pengaduan Valid</title>
 </head>
 <body>
     <table border="1">
@@ -40,6 +40,7 @@ if (isset($_GET['id'])) {
             <th>Foto Penunjang</th>
             <th>Isi Aduan</th>
             <th>Status</th>
+            <th>Tanggapan</th>
             <th>verifikasi</th>
         </thead>
         <tbody>
@@ -48,8 +49,8 @@ if (isset($_GET['id'])) {
                 foreach($getData as $data) {
                     
                     $no+=1;
-                    if ($data['status'] == NULL) {
-                        $status = 'Belum Valid';
+                    if ($data['status'] == 'proses') {
+                        $status = 'Proses';
                     } else if ($data['status'] == '0') {
                         $status = 'Valid';
                     } else {
@@ -66,9 +67,15 @@ if (isset($_GET['id'])) {
                             <td>$data[isi_laporan]</td>
                             <td>$status</td>
                             <td>
+                                <a href=../tanggapan.php?id=$data[id_pengaduan]>
+                                <button>
+                                    Tanggapan
+                                </button>
+                            </td>
+                            <td>
                              <a href = ?id=$data[id_pengaduan]>
                                 <button>
-                                    Validasi
+                                    Telah Di Proses
                                 </button>
                             </td>
                         </tr>

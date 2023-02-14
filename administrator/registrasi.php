@@ -24,7 +24,7 @@ if ($execQuery) {
 } else {
     echo '<script> alert("data ada yang salah")</script>';
 }
-var_dump($query);
+// var_dump($query);
 }
 ?>
 

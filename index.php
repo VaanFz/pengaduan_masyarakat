@@ -56,6 +56,7 @@ if ($numRows == 1) {
 </head>
 <body>
     <form method="POST">
+        <h2>Login Masyarakat</h2>
         <input type="text" name="username" placeholder="Username" required>
         <input type="password" name="password" placeholder="password" required>
         <input type="submit" name="login" value="Login">
